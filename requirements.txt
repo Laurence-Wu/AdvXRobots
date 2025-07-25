@@ -1,0 +1,48 @@
+# Core dependencies
+opencv-python>=4.5.0
+numpy>=1.21.0
+PyYAML>=6.0
+
+# Computer vision and AI
+tensorflow-lite>=2.8.0
+mediapipe>=0.8.0
+ultralytics>=8.0.0
+
+# Hardware interfaces
+pyserial>=3.5
+RPi.GPIO>=0.7.1; platform_machine=="armv7l"
+gpiozero>=1.6.2; platform_machine=="armv7l"
+
+# Image processing
+Pillow>=8.0.0
+scikit-image>=0.18.0
+
+# Data handling
+pandas>=1.3.0
+scipy>=1.7.0
+
+# Configuration and logging
+configparser>=5.0.0
+logging>=0.4.9.6
+
+# Testing
+pytest>=6.0.0
+pytest-cov>=2.12.0
+pytest-mock>=3.6.0
+
+# Development tools
+black>=21.0.0
+flake8>=3.9.0
+mypy>=0.910
+
+# Optional: GUI development
+tkinter>=8.6; platform_system=="Linux"
+PyQt5>=5.15.0; extra == "gui"
+
+# Optional: Advanced computer vision
+dlib>=19.22.0; extra == "advanced_cv"
+face-recognition>=1.3.0; extra == "advanced_cv"
+
+# Optional: Performance monitoring
+psutil>=5.8.0; extra == "monitoring"
+memory-profiler>=0.60.0; extra == "monitoring"

@@ -1,0 +1,239 @@
+{
+  "hardware": {
+    "servos": {
+      "count": 6,
+      "communication": {
+        "protocol": "UART",
+        "port": "/dev/ttyUSB0",
+        "baudrate": 1000000,
+        "timeout": 0.1
+      },
+      "servo_configs": {
+        "0": {
+          "id": 0,
+          "name": "base_rotation",
+          "type": "continuous",
+          "angle_range": [-180, 180],
+          "initial_position": 0,
+          "power_mode": "zero_power",
+          "description": "Base rotation servo"
+        },
+        "1": {
+          "id": 1,
+          "name": "vertical_tilt",
+          "type": "positional",
+          "angle_range": [-120, 120],
+          "initial_position": -90,
+          "power_mode": "active",
+          "description": "Vertical tilt for face tracking"
+        },
+        "2": {
+          "id": 2,
+          "name": "horizontal_pan",
+          "type": "positional",
+          "angle_range": [-120, 120],
+          "initial_position": -90,
+          "power_mode": "active",
+          "description": "Horizontal pan for face tracking"
+        },
+        "3": {
+          "id": 3,
+          "name": "arm_extension",
+          "type": "positional",
+          "angle_range": [-90, 90],
+          "initial_position": 0,
+          "power_mode": "active",
+          "description": "Arm extension servo"
+        },
+        "4": {
+          "id": 4,
+          "name": "gripper_rotate",
+          "type": "continuous",
+          "angle_range": [-180, 180],
+          "initial_position": 0,
+          "power_mode": "zero_power",
+          "description": "Gripper rotation"
+        },
+        "5": {
+          "id": 5,
+          "name": "gripper_clamp",
+          "type": "positional",
+          "angle_range": [0, 90],
+          "initial_position": 0,
+          "power_mode": "disabled",
+          "description": "Gripper clamping mechanism"
+        }
+      },
+      "motion_params": {
+        "default_speed": 500,
+        "angle_tolerance": 2.0,
+        "movement_timeout": 5000,
+        "power_settings": {
+          "active_power": 8000,
+          "holding_power": 4000,
+          "zero_power": 0
+        }
+      }
+    },
+    "camera": {
+      "device_id": 0,
+      "resolution": {
+        "width": 640,
+        "height": 480
+      },
+      "framerate": 30,
+      "auto_exposure": true,
+      "calibration": {
+        "fx": 600.0,
+        "fy": 600.0,
+        "cx": 320.0,
+        "cy": 240.0,
+        "distortion": [0.1, -0.2, 0.0, 0.0, 0.0]
+      }
+    },
+    "display": {
+      "type": "LCD",
+      "interface": "I2C",
+      "address": "0x3C",
+      "resolution": {
+        "width": 128,
+        "height": 64
+      },
+      "refresh_rate": 10
+    }
+  },
+  "vision": {
+    "face_detection": {
+      "model_type": "mediapipe",
+      "confidence_threshold": 0.7,
+      "max_faces": 1,
+      "tracking_quality": "high"
+    },
+    "object_detection": {
+      "model_path": "models/object_detection.tflite",
+      "confidence_threshold": 0.5,
+      "iou_threshold": 0.4,
+      "max_detections": 10
+    },
+    "tracking": {
+      "smoothing_factor": 0.8,
+      "prediction_frames": 3,
+      "lost_target_timeout": 2000,
+      "reacquisition_threshold": 0.3
+    },
+    "coordinate_mapping": {
+      "deadzone_radius": 30,
+      "servo_response_gain": 1.5,
+      "max_angular_velocity": 45,
+      "coordinate_system": "camera_centered"
+    }
+  },
+  "kinematics": {
+    "arm_parameters": {
+      "base_height": 50.0,
+      "link_lengths": [100.0, 150.0, 120.0],
+      "joint_offsets": [0.0, 90.0, 0.0],
+      "end_effector_length": 80.0
+    },
+    "workspace": {
+      "x_range": [-200, 200],
+      "y_range": [-200, 200],
+      "z_range": [0, 300]
+    },
+    "constraints": {
+      "max_reach": 370.0,
+      "min_reach": 50.0,
+      "max_joint_velocity": 60.0,
+      "collision_avoidance": true
+    }
+  },
+  "sequences": {
+    "wave": {
+      "name": "Friendly Wave",
+      "description": "A friendly waving motion",
+      "steps": [
+        {"servo_id": 1, "angle": -45, "duration": 1000},
+        {"servo_id": 2, "angle": 30, "duration": 800},
+        {"servo_id": 2, "angle": -30, "duration": 600},
+        {"servo_id": 2, "angle": 30, "duration": 600},
+        {"servo_id": 2, "angle": -30, "duration": 600},
+        {"servo_id": 1, "angle": -90, "duration": 1000},
+        {"servo_id": 2, "angle": -90, "duration": 800}
+      ]
+    },
+    "nod": {
+      "name": "Head Nod",
+      "description": "A nodding motion to indicate understanding",
+      "steps": [
+        {"servo_id": 1, "angle": -75, "duration": 600},
+        {"servo_id": 1, "angle": -105, "duration": 600},
+        {"servo_id": 1, "angle": -75, "duration": 600},
+        {"servo_id": 1, "angle": -90, "duration": 800}
+      ]
+    },
+    "shake": {
+      "name": "Head Shake",
+      "description": "A head shaking motion to indicate disagreement",
+      "steps": [
+        {"servo_id": 2, "angle": -70, "duration": 600},
+        {"servo_id": 2, "angle": -110, "duration": 600},
+        {"servo_id": 2, "angle": -70, "duration": 600},
+        {"servo_id": 2, "angle": -90, "duration": 800}
+      ]
+    },
+    "search": {
+      "name": "Search Pattern",
+      "description": "Systematic search pattern for finding faces",
+      "steps": [
+        {"servo_id": 2, "angle": -60, "duration": 1000},
+        {"servo_id": 1, "angle": -75, "duration": 800},
+        {"servo_id": 2, "angle": -120, "duration": 1500},
+        {"servo_id": 1, "angle": -105, "duration": 800},
+        {"servo_id": 2, "angle": -60, "duration": 1500},
+        {"servo_id": 1, "angle": -90, "duration": 800},
+        {"servo_id": 2, "angle": -90, "duration": 1000}
+      ]
+    }
+  },
+  "behavior": {
+    "face_tracking": {
+      "enabled": true,
+      "auto_start": false,
+      "idle_timeout": 10000,
+      "search_on_lost": true,
+      "greeting_sequence": "wave"
+    },
+    "interaction": {
+      "proximity_detection": true,
+      "gesture_recognition": false,
+      "voice_commands": false,
+      "emotional_responses": true
+    },
+    "safety": {
+      "emergency_stop": true,
+      "collision_detection": true,
+      "workspace_boundaries": true,
+      "max_operation_time": 3600000
+    }
+  },
+  "system": {
+    "logging": {
+      "level": "INFO",
+      "file_path": "logs/robot_arm.log",
+      "max_file_size": "10MB",
+      "backup_count": 5
+    },
+    "performance": {
+      "main_loop_frequency": 30,
+      "vision_processing_fps": 15,
+      "servo_update_rate": 50,
+      "status_display_rate": 2
+    },
+    "debug": {
+      "show_debug_info": false,
+      "save_debug_images": false,
+      "servo_position_feedback": true,
+      "performance_monitoring": false
+    }
+  }
+}

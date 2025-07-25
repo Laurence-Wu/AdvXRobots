@@ -1,6 +1,6 @@
-# EmoRobots - My Robot Arm
+# AdvXRobots - Advanced Robotic Control System
 
-A modular robotic arm control system with face tracking capabilities for the EmoRobots project.
+A modular robotic arm control system with face tracking capabilities for the AdvXRobots project.
 
 ## Features
 
@@ -14,7 +14,7 @@ A modular robotic arm control system with face tracking capabilities for the Emo
 ## Project Structure
 
 ```
-my_robot_arm/
+AdvXRobots/
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
